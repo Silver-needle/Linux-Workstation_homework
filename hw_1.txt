@@ -1,0 +1,22 @@
+Урок 1. Введение. Установка ОС
+Обзавестись установленной версией Linux Ubuntu.
+В качестве решения необходимо прислать текстовый файл (*.txt) с кодом команды, выводящей информацию о версии ОС (вместе с результатом работы этой команды)
+
+
+msamoray@ubuntu:~$ 4msamoray@ubuntu:~$ uname
+Linux
+msamoray@ubuntu:~$ hostnamectl
+ Static hostname: ubuntu
+       Icon name: computer-vm
+         Chassis: vm
+      Machine ID: 2300000765b8dcef413e5843344cf430
+         Boot ID: 6e97f2a4b5f8409492c15073adb9bb1f
+  Virtualization: kvm
+Operating System: Ubuntu 22.04.1 LTS
+          Kernel: Linux 5.15.0-56-generic
+    Architecture: x86-64
+ Hardware Vendor: Yandex
+  Hardware Model: xeon-gold-6338
+msamoray@ubuntu:~$
+
+// Машина создана на console.cloud.yandex.ru. SSH клиент PuTTY.

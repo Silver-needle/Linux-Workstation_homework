@@ -1,0 +1,42 @@
+Урок 3. Пользователи. Управление Пользователями и группами
+1. Управление пользователями:
+a) создать нового пользователя;
+b) убедиться, что информация о нем появилась в соответствующих файлах в системе;
+c) удалить созданного пользователя;
+
+2. Управление группами:
+a) создать группу;
+b) попрактиковаться в смене групп у пользователей;
+c) добавить пользователя в группу, не меняя основной;
+d) удалить пользователя из группы.
+
+3. Создать пользователя с правами суперпользователя. Проверить результат.
+
+msamoray@ubuntu2:~$ sudo useradd -m -s /bin/bash user1010
+msamoray@ubuntu2:~$ ls /home
+msamoray  user1010
+msamoray@ubuntu2:~$ sudo su -
+root@ubuntu2:~# userdel -fr user1010
+userdel: user1010 mail spool (/var/mail/user1010) not found
+msamoray@ubuntu2:~# ls /home
+msamoray
+---------------------
+root@ubuntu2:~# useradd -m -s /bin/bash User1
+root@ubuntu2:~# useradd -m -s /bin/bash User2
+root@ubuntu2:~# groupadd Team1
+root@ubuntu2:~# groupadd Team2
+root@ubuntu2:~# usermod -G Team1 User1
+root@ubuntu2:~# usermod -G Team2 User2
+root@ubuntu2:~# id User2
+uid=1003(User2) gid=1013(Team1) groups=1013(Team1),1015(Team2)
+root@ubuntu2:~# usermod -a -G Team2 User1
+root@ubuntu2:~# gpasswd -d User2 Team2
+Removing user User3 from group Team2
+root@ubuntu2:~# id User2
+uid=1003(User2) gid=1013(Team1) groups=1013(Team1)
+root@ubuntu2:~# id User1
+uid=1001(User1) gid=1012(User1) groups=1012(User1),1013(Team1),1015(Team2)
+-----------------------
+root@ubuntu2:~# usermod -aG sudo User1
+root@ubuntu2:~# id User1
+uid=1001(User1) gid=1012(User1) groups=1012(User1),27(sudo),1013(Team1),1015(Team3)

@@ -1,0 +1,236 @@
+Урок 4. Загрузка ОС и процессы
+1. Потоки ввода/вывода. Создать файл, используя команду echo. Используя команду cat, прочитать содержимое всех файлов каталога etc, ошибки перенаправить в отдельный файл.
+2. Конвейер (pipeline). Использовать команду cut на вывод длинного списка каталога, чтобы отобразить только права доступа к файлам. Затем отправить в конвейере этот вывод на sort и uniq, чтобы отфильтровать все повторяющиеся строки.
+3. Управление процессами.) Изменить конфигурационный файл службы SSH: /etc/ssh/sshd_config, отключив аутентификацию по паролю PasswordAuthentication no. Выполните рестарт службы systemctl restart sshd (service sshd restart), верните аутентификацию по паролю, выполните reload службы systemctl reload sshd (services sshd reload). В чём различие между действиями restart и reload? Создайте файл при помощи команды cat > file_name, напишите текст и завершите комбинацией ctrl+d. Какой сигнал передадим процессу?
+4. Сигналы процессам. Запустите mc. Используя ps, найдите PID процесса, завершите процесс, передав ему сигнал 9.
+
+1.
+msamoray@ubuntu:~$ echo first line > file1.txt
+msamoray@ubuntu:~$ ls
+file1.txt
+msamoray@ubuntu:~$ cat tmp
+cat: tmp: No such file or directory
+msamoray@ubuntu:~$ cat file1.txt
+first line
+msamoray@ubuntu:~$ cat /etc 2> errors.txt
+msamoray@ubuntu:~$ cat errors.txt
+cat: /etc: Is a directory
+
+2. 
+msamoray@ubuntu:~$ ls -l /etc | cut -c2-10
+otal 844
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r-----
+rw-r-----
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxrwxr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxrwxrwx
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxrwxrwx
+rwx------
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxrwxrwx
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxrwxrwx
+rwxrwxrwx
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r-----
+rw-r-----
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+rw-r--r--
+r--r-----
+rwxr-x---
+rw-r--r--
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rwxr-xr-x
+rwxr-xr-x
+rwxrwxrwx
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+rwxr-xr-x
+rw-r--r--
+msamoray@ubuntu:~$ ls -l /etc | cut -c 2-10 | sort |uniq
+otal 852
+r--r-----
+rw-r-----
+rw-r--r--
+rwx------
+rwxrwxrwx
+rwxrwxr-x
+rwxr-x---
+rwxr-xr-x
+
+3.
+msamoray@ubuntu:~$ sudo su - 
+root@ubuntu:~# nano /etc/ssh/sshd_config
+// Ctrl+W -> в строке поиска 'PasswordA'+Enter -> редактирую PasswordAuthentication yes на PasswordAuthentication no -> Ctrl+O -> Ctrl+X
+root@ubuntu:~# systemctl restart sshd
+root@ubuntu:~# nano /etc/ssh/sshd_config
+// Ctrl+W -> 'PasswordA'+Enter -> редактирую PasswordAuthentication no на  // PasswordAuthentication yes -> Ctrl+O -> Ctrl+X
+root@ubuntu:~# systemctl reload sshd
+
+// Reload перечитывает файлы в процессе работы, а restart - перезапуск.
+
+msamoray@ubuntu:~$ cat > file_2
+line 1 
+msamoray@ubuntu:~$ ls
+errors.txt  file1.txt  file_2
+
+// Ctrl+D завершает запись
+
+4. 
+msamoray@ubuntu:~$ top -o PID
+// В строке команд 'k'+Enter -> номер процесса '2944'+Enter -> номер команды '9'+Enter -> процесс удален 
+
+
+
