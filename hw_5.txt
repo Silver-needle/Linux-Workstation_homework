@@ -1,0 +1,59 @@
+Урок 5. Устройство файловой системы Linux. Понятие Файла и каталога
+1. Создать файл file1 и наполнить его произвольным содержимым. Скопировать его в file2. Создать символическую ссылку file3 на file1. Создать жёсткую ссылку file4 на file1. Посмотреть, какие inode у файлов. Удалить file1. Что стало с остальными созданными файлами? Попробовать вывести их на экран.
+2. Дать созданным файлам другие, произвольные имена. Создать новую символическую ссылку. Переместить ссылки в другую директорию.
+3. Создать два произвольных файла. Первому присвоить права на чтение и запись для владельца и группы, только на чтение — для всех. Второму присвоить права на чтение и запись только для владельца.
+
+1. 
+msamoray@ubuntu:~$ cat > file1
+some text
+msamoray@ubuntu:~$ cp file1 file2
+msamoray@ubuntu:~$ cat file2
+some text
+msamoray@ubuntu:~$ ln -s file1 file3
+msamoray@ubuntu:~$ ln file1 file4
+msamoray@ubuntu:~$ ls -li
+total 12
+393225 -rw-rw-r-- 2 msamoray msamoray 10 Dec 25 13:38 file1
+393226 -rw-rw-r-- 1 msamoray msamoray 10 Dec 25 13:40 file2
+393248 lrwxrwxrwx 1 msamoray msamoray  6 Dec 25 13:42 file3 -> file1
+393225 -rw-rw-r-- 2 msamoray msamoray 10 Dec 25 13:38 file4
+msamoray@ubuntu:~$ rm file1
+msamoray@ubuntu:~$ ls -li
+total 8
+393226 -rw-rw-r-- 1 msamoray msamoray 10 Dec 25 13:40 file2
+393248 lrwxrwxrwx 1 msamoray msamoray  6 Dec 25 13:42 file3 -> file1
+393225 -rw-rw-r-- 1 msamoray msamoray 10 Dec 25 13:38 file4
+msamoray@ubuntu:~$
+msamoray@ubuntu:~$
+msamoray@ubuntu:~$ cat file2
+some text
+msamoray@ubuntu:~$ cat file3
+cat: file3: No such file or directory
+msamoray@ubuntu:~$ cat file4
+some text
+
+2.
+msamoray@ubuntu:~$ mv file2 File_2
+msamoray@ubuntu:~$ mv file3 File_3
+msamoray@ubuntu:~$ mv file4 File_4
+msamoray@ubuntu:~$ ln -s File_2 File_2_link
+msamoray@ubuntu:~$ mv File_2_link /tmp
+msamoray@ubuntu:~$ mv File_3 /tmp
+msamoray@ubuntu:~$ mv File_4 /tmp
+
+3.
+msamoray@ubuntu:~$ echo some text > file_1
+msamoray@ubuntu:~$ echo some text > file_2
+msamoray@ubuntu:~$ ls -l
+total 12
+-rw-rw-r-- 1 msamoray msamoray 10 Dec 25 15:17 file_1
+-rw-rw-r-- 1 msamoray msamoray 10 Dec 25 15:17 file_2
+msamoray@ubuntu:~$ chmod ugo=r file_1
+msamoray@ubuntu:~$ chmod ug+w file_1
+msamoray@ubuntu:~$ chmod ugo-rwx file_2
+msamoray@ubuntu:~$ chmod u=rw file_2
+msamoray@ubuntu:~$ ls -l
+total 12
+-rw-rw-r-- 1 msamoray msamoray 10 Dec 25 15:17 file_1
+-rw------- 1 msamoray msamoray 10 Dec 25 15:17 file_2
+
