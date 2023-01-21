@@ -1,0 +1,101 @@
+Урок 6. Введение в скрипты Bash. Планировщики задач crontab и at
+1. Вывести на экран 3 раза имя пользователя, от которого запускается команда.
+2. Вывести с помощью цикла while все четные числа от 0 до 100 включительно.
+3. Создать с помощью nano файл test.txt. Настроить автоматический бэкап этого файла раз в 10 минут в файл с названием test.txt.bak с использованием cron.
+
+1.
+for n in {1..4}; do echo $n "user name" $USER ; done
+msamoray@ubuntu:~$ for n in {1..3}; do echo $n "user name" $USER ; done
+1 user name msamoray
+2 user name msamoray
+3 user name msamoray
+
+2.
+msamoray@ubuntu:~$ nano script1.sh
+msamoray@ubuntu:~$ cat script1.sh
+#!/bin/bash
+num=0
+while [ $num -lt 51 ];
+do
+echo $(( $num * 2 ))
+num=$(( $num + 1))
+done
+msamoray@ubuntu:~$ chmod u+x script1.sh
+msamoray@ubuntu:~$ ./script1.sh
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+22
+24
+26
+28
+30
+32
+34
+36
+38
+40
+42
+44
+46
+48
+50
+52
+54
+56
+58
+60
+62
+64
+66
+68
+70
+72
+74
+76
+78
+80
+82
+84
+86
+88
+90
+92
+94
+96
+98
+100
+
+3.
+msamoray@ubuntu:~$ nano test.txt
+msamoray@ubuntu:~$ crontab -e
+msamoray@ubuntu:~$ crontab -l
+*/10 * * * * cat test.txt>test.txt.bak
+msamoray@ubuntu:~$ ll
+total 60
+drwxr-x--- 5 msamoray msamoray 4096 Jan 18 16:59 ./
+drwxr-xr-x 3 root     root     4096 Dec 25 13:37 ../
+-rw------- 1 msamoray msamoray  414 Dec 25 15:38 .bash_history
+-rw-r--r-- 1 msamoray msamoray  220 Jan  6  2022 .bash_logout
+-rw-r--r-- 1 msamoray msamoray 3771 Jan  6  2022 .bashrc
+drwx------ 2 msamoray msamoray 4096 Dec 25 13:37 .cache/
+-rw-rw-r-- 1 msamoray msamoray   10 Dec 25 15:17 file_1
+-rw------- 1 msamoray msamoray   10 Dec 25 15:17 file_2
+-rw-rw-r-- 1 msamoray msamoray   10 Dec 25 13:40 File_2
+drwxrwxr-x 3 msamoray msamoray 4096 Jan 18 13:30 .local/
+-rw-r--r-- 1 msamoray msamoray  807 Jan  6  2022 .profile
+-rwxrw-r-- 1 msamoray msamoray   89 Jan 18 13:42 script1.sh*
+-rw-rw-r-- 1 msamoray msamoray   66 Jan 18 17:00 .selected_editor
+drwx------ 2 msamoray msamoray 4096 Dec 25 13:37 .ssh/
+-rw-rw-r-- 1 msamoray msamoray   39 Jan 18 16:58 test.txt
+msamoray@ubuntu:~$ cat test.txt
+*/10 * * * * cat test.txt>test.txt.bak
+
